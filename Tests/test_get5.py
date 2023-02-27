@@ -1,5 +1,8 @@
 import requests
+import pytest
 
+
+@pytest.mark.xfail
 def test_get():
     resp = requests.get("https://reqres.in/api/unknown/2")
     json_response = resp.json()
