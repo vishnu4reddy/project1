@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture
 def first():
     print("Set up first fixture")

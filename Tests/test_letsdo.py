@@ -1,4 +1,6 @@
 import pytest
+
+
 @pytest.fixture(scope="class")
 def class_test():
     assert ("scope class")

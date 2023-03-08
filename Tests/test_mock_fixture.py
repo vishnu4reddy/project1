@@ -72,7 +72,7 @@ class TestMockerFixture(object):
         assert False
 
     def test_mocker_follow_up(self):
-        assert another_test_fn() == 42    
+        assert another_test_fn() == 42
 
     @pytest.fixture
     def mock_fn(self, mocker):
