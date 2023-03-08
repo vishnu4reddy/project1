@@ -1,0 +1,1 @@
+setting up <function test_func1 at 0x00000186BAD82CB0>

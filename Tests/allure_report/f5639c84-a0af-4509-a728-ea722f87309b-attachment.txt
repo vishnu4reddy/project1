@@ -1,0 +1,5 @@
+Set up first fixture
+Set up second fixture
+In the test
+Clean up second fixture
+Clean up first fixture
