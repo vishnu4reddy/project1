@@ -1,68 +1,20 @@
-public class XmlReportDiagnosis implements IReporter {
-
-    @Override
-    public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
-        Logger.info(this.getClass(), "generateReport");
-        TestNG testNG = TestNG.getDefault();
-        if (!CollectionUtils.isEmpty(testNG.getReporters())) {
-            for (Iterator<IReporter> iterator = testNG.getReporters().iterator(); iterator.hasNext();) {
-                IReporter reporter = iterator.next();
-                if (reporter instanceof XMLReporter) {
-                    XMLReporter xmlReporter = (XMLReporter) reporter;
-                    try {
-                        Field rootBufferField = reporter.getClass().getDeclaredField("rootBuffer");
-                        rootBufferField.setAccessible(true);
-                        XMLStringBuffer rootBuffer = (XMLStringBuffer) rootBufferField.get(xmlReporter);
-                        if (null != rootBuffer) {
-                            Logger.info(this.getClass(), rootBuffer.toXML());
-                        }
-                    } catch (NoSuchFieldException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
-            }
-        }
-    }
-}
-
-
-
-<!-- 
-<project default="test">
+<project>
+  ...
+  <properties>
+    <mavenVersion>3.0</mavenVersion>
+  </properties>
  
- <path id="cp">
-   <pathelement location="lib/testng-testng-5.13.1.jar"/>
-   <pathelement location="build"/>
- </path>
- 
- <taskdef name="testng" classpathref="cp"
-          classname="org.testng.TestNGAntTask" />
- 
- <target name="test">
-   <testng classpathref="cp" groups="fast">
-     <classfileset dir="build" includes="example1/*.class"/>
-   </testng>
- </target>
- 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact</artifactId>
+      <version>${mavenVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>${mavenVersion}</version>
+    </dependency>
+  </dependencies>
+  ...
 </project>
- -->
-
-<!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>uk.gov.dwp.dataworks.adg-tests</groupId>
-    <artifactId>adg-tests</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <dependencies>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.10.9</version>
-        </dependency>
-    </dependencies>
-</project> -->
