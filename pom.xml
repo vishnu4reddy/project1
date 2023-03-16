@@ -1,4 +1,38 @@
+public class XmlReportDiagnosis implements IReporter {
 
+    @Override
+    public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
+        Logger.info(this.getClass(), "generateReport");
+        TestNG testNG = TestNG.getDefault();
+        if (!CollectionUtils.isEmpty(testNG.getReporters())) {
+            for (Iterator<IReporter> iterator = testNG.getReporters().iterator(); iterator.hasNext();) {
+                IReporter reporter = iterator.next();
+                if (reporter instanceof XMLReporter) {
+                    XMLReporter xmlReporter = (XMLReporter) reporter;
+                    try {
+                        Field rootBufferField = reporter.getClass().getDeclaredField("rootBuffer");
+                        rootBufferField.setAccessible(true);
+                        XMLStringBuffer rootBuffer = (XMLStringBuffer) rootBufferField.get(xmlReporter);
+                        if (null != rootBuffer) {
+                            Logger.info(this.getClass(), rootBuffer.toXML());
+                        }
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+
+<!-- 
 <project default="test">
  
  <path id="cp">
@@ -16,7 +50,7 @@
  </target>
  
 </project>
-
+ -->
 
 <!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
