@@ -1,38 +1,21 @@
-<!-- run unit test cases -->
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.12.4</version>
-    <configuration>
-        <environmentVariables>
-            <outputDirectory>${project.build.directory}</outputDirectory>
-        </environmentVariables>
-    </configuration>
-    <executions>
-        <execution>
-            <id>default-test</id>
-            <configuration>
-                <forkMode>once</forkMode>
-                <suiteXmlFiles>
-                    <suiteXmlFile>${basedir}/src/test/testngSuite1.xml</suiteXmlFile>
-                </suiteXmlFiles>
-            </configuration>
-        </execution>
-        <execution>
-            <id>special-test</id>
-            <phase>test</phase>
-            <goals>
-                <goal>test</goal>
-            </goals>
-            <configuration>
-                <forkMode>always</forkMode>
-                <suiteXmlFiles>
-                    <suiteXmlFile>${basedir}/src/test/testngSuite2.xml</suiteXmlFile>
-                </suiteXmlFiles>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+
+<project default="test">
+ 
+ <path id="cp">
+   <pathelement location="lib/testng-testng-5.13.1.jar"/>
+   <pathelement location="build"/>
+ </path>
+ 
+ <taskdef name="testng" classpathref="cp"
+          classname="org.testng.TestNGAntTask" />
+ 
+ <target name="test">
+   <testng classpathref="cp" groups="fast">
+     <classfileset dir="build" includes="example1/*.class"/>
+   </testng>
+ </target>
+ 
+</project>
 
 
 <!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
