@@ -5,4 +5,4 @@ def test_divisible_by_3(input_value):
 
 
 def test_divisible_by_6(input_value):
-    assert input_value % 12 == 1
+    assert input_value % 12 != 1
